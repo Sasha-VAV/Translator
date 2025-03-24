@@ -70,10 +70,10 @@
 </head>
 <body>
     <div class="container">
-        <h1>ML Model Web App</h1>
+        <h1>Translator + pos/neg speech classifier</h1>
         <form action="/process" method="post">
-            <input type="text" name="input_text" placeholder="Enter your input" required>
-            <button type="submit">Process</button>
+            <input type="text" name="input_text" placeholder="Enter your input on English" required>
+            <button type="submit">Go</button>
         </form>
         {% if output_text %}
         <div class="output-container">
