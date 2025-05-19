@@ -306,7 +306,6 @@ class Encoder(nn.Module):
                     embed_dim=embed_dim,
                     num_heads=num_heads,
                     hidden_size=hidden_size,
-                    is_cls=is_cls,
                     *args,
                     **kwargs,
                 )
