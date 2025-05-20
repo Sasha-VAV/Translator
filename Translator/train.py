@@ -4,7 +4,7 @@ import torch.nn as nn
 import torch.optim as optim
 from datasets import load_dataset, tqdm
 
-from Translator import get_text_generator
+from Translator import Writer
 
 
 def mlflow_decorator(func: callable) -> callable:
@@ -20,8 +20,9 @@ def mlflow_decorator(func: callable) -> callable:
 def train_decoder():
     dataset = load_dataset("roneneldan/TinyStories")["train"]
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model, tokenizer = get_text_generator("../data/en-8k.model")
-    model.to(device)
+    writer = Writer.from_pretrained("Sashavav/Translator").to(device)
+    model = writer.model
+    tokenizer = writer.tokenizer
     # model.load_state_dict(torch.load("../data/text_generator.pth"))
     max_sequence_length = 128
     # Train args
@@ -70,13 +71,14 @@ def train_decoder():
                 running_loss = 0.0
             save_i += 1
             if save_i == save_every_n_steps:
-                torch.save(model.state_dict(), "../data/text_generator.pth")
+                writer.save_pretrained("train")
                 save_i = 0
             seq_i += 2
             if seq_i >= num_of_sequences:
                 break
             batch_i = 0
-        torch.save(model.state_dict(), f"../data/text_generator{epoch}.pth")
+        writer.push_to_hub()
+        writer.save_pretrained(f"epoch{epoch + 1}")
     mlflow.pytorch.log_model(model, "model")
 
 

@@ -33,7 +33,7 @@ def get_reviews_scorer(path_to_tokenizer: str = "data/imdb.model"):
     return model, tokenizer
 
 
-def get_text_generator(path_to_tokenizer: str = "data/en-ru-50k.model"):
+def get_text_generator(path_to_tokenizer: str = "data/en-8k.model"):
     n_blocks = 4
     n_tokens = 8192
     embedding_size = 512
