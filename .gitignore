@@ -172,3 +172,18 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Ignore drafts
+**draft**
+
+# Ignore .idea
+.idea
+
+Translator/mlruns
+mlruns
+mlartifacts
+
+data/IMDB Dataset.csv
+data/OpenSubtitle*
+data/tmp.txt
+data/tokenizer.json
