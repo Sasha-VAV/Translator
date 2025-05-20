@@ -1,3 +1,5 @@
+import shutil
+
 import sentencepiece as spm
 import torch
 from sentencepiece import SentencePieceProcessor
@@ -52,6 +54,7 @@ class Tokenizer(SentencePieceProcessor):
         """
         super().__init__()
         self.seq_len = seq_len
+        self.path = None
 
     def Encode(self, input, out_type=None, *args, **kwargs):
         """
@@ -93,7 +96,11 @@ class Tokenizer(SentencePieceProcessor):
         """
         sp = cls(seq_len=seq_len)
         sp.Load(path)
+        sp.path = path
         return sp
+
+    def save_tokenizer(self, path: str = "../data/spm_model.model"):
+        shutil.copyfile(self.path, path)
 
 
 if __name__ == "__main__":
