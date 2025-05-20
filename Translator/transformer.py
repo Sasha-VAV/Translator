@@ -416,7 +416,9 @@ class Decoder(nn.Module):
         :param memory: tensor BxTxD that represents input seq in the cross-attention block
         :return: tensor Bx1 with next tokens
         """
-        x = self.forward(x.unsqueeze(0), memory=memory.unsqueeze(0)).squeeze(0)[-1]
+        x = self.forward(
+            x.unsqueeze(0), memory=memory.unsqueeze(0) if memory else None
+        ).squeeze(0)[-1]
         x = self.softmax(x / temperature)
         x = torch.multinomial(x, 1)
         return x
@@ -447,8 +449,8 @@ class Decoder(nn.Module):
         # starting generating from it
         for i in range(k, max_size):
             next_token = self.predict(x, temperature)
-            x[i] = next_token[i]
-            if next_token[i] == 3:
+            x[i] = next_token
+            if next_token == 3:
                 break
         return x
 
