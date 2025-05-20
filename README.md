@@ -1,14 +1,13 @@
 # Translator
-Model that translates text from English to Russian with Attention Is All You Need transformer
+This is a research project to create a translator from an article Attention Is All You Need. 
+At current state, I don't have enough resources to train a model for this task, 
+so I'm presenting only the decoder, that can generate some text based on the input.
 
-# Data
-In this project we used OpenSubtitles English to Russian dataset.
-
-[Link to get from OPUS](https://opus.nlpl.eu/results/en&ru/corpus-result-table)
-
-[Direct download link](https://object.pouta.csc.fi/OPUS-OpenSubtitles/v2024/moses/en-ru.txt.zip)
-
-# Tokenizer
-We use Sentencepiece, params for the tokenizer:
-- Vocabulary length = 10000
-- Training pairs = 200000
+# How to launch
+- Clone repository
+- Run code
+```python
+from Translator import Writer
+writer = Writer.from_pretrained("Sashavav/Translator") #  .to("cuda")
+print(writer(input_seq="One day I saw a "))
+```
