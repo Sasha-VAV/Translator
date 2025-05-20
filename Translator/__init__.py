@@ -34,11 +34,11 @@ def get_reviews_scorer(path_to_tokenizer: str = "data/imdb.model"):
 
 
 def get_text_generator(path_to_tokenizer: str = "data/en-ru-50k.model"):
-    n_blocks = 6
-    n_tokens = 50000
+    n_blocks = 4
+    n_tokens = 8192
     embedding_size = 512
     n_heads = 8
-    hidden_size = 2048
+    hidden_size = 1024
     max_sequence_length = 128
     model = Decoder(
         n_blocks=n_blocks,
