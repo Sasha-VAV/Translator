@@ -14,6 +14,7 @@ def mlflow_decorator(func: callable) -> callable:
         mlflow.set_tracking_uri(
             uri=f"http://{os.environ.get('MLFLOW_LINK', 'localhost:5000')}"
         )
+        mlflow.set_experiment("Writer")
         with mlflow.start_run():
             func(*args)
 
