@@ -2,6 +2,7 @@ import shutil
 
 import sentencepiece as spm
 import torch
+from datasets import load_dataset, tqdm
 from sentencepiece import SentencePieceProcessor
 
 
@@ -16,19 +17,14 @@ def create_tokenizer(
     :param max_corpus_len: max rows in a corpus to process, leave -1 to process every row
     :param tokenizer_name: name of tokenizer to save
     """
-    with (
-        open("../data/OpenSubtitles.en-ru.en", encoding="utf-8") as f_en,
-        open("../data/OpenSubtitles.en-ru.ru", encoding="utf-8") as f_ru,
-        open("../data/tmp.txt", "w", encoding="utf-8") as f_dump,
-    ):
+    dataset = load_dataset("roneneldan/TinyStories")["train"]
+    with (open("../data/tmp.txt", "w", encoding="utf-8") as f_dump,):
         k = 0
-
-        for en_line, ru_line in zip(f_en, f_ru):
-            if k > max_corpus_len > 0:
+        for story in tqdm(dataset):
+            f_dump.write(story["text"] + "\n")
+            k += 1
+            if 0 < max_corpus_len < k:
                 break
-            else:
-                k += 1
-            f_dump.writelines([ru_line])  # , ru_line])
 
     spm.SentencePieceTrainer.Train(
         input="../data/tmp.txt",
@@ -104,4 +100,4 @@ class Tokenizer(SentencePieceProcessor):
 
 
 if __name__ == "__main__":
-    create_tokenizer(max_tokens=10000, tokenizer_name="ru-10k")
+    create_tokenizer(max_tokens=8192, tokenizer_name="en-8k")
