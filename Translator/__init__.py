@@ -34,7 +34,6 @@ def get_reviews_scorer(path_to_tokenizer: str = "data/imdb.model"):
 
 
 def get_text_generator(path_to_tokenizer: str = "data/en-ru-50k.model"):
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     n_blocks = 6
     n_tokens = 50000
     embedding_size = 512
@@ -48,7 +47,7 @@ def get_text_generator(path_to_tokenizer: str = "data/en-ru-50k.model"):
         num_heads=n_heads,
         hidden_size=hidden_size,
         max_len=max_sequence_length,
-    ).to(device)
+    )
     tokenizer = Tokenizer.load_tokenizer(
         path=path_to_tokenizer, seq_len=max_sequence_length
     )
