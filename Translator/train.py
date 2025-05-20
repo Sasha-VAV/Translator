@@ -1,3 +1,5 @@
+import os
+
 import mlflow
 import torch
 import torch.nn as nn
@@ -9,7 +11,9 @@ from Translator import Writer
 
 def mlflow_decorator(func: callable) -> callable:
     def wrapper(*args):
-        mlflow.set_tracking_uri(uri="http://localhost:5000")
+        mlflow.set_tracking_uri(
+            uri=f"http://{os.environ.get('MLFLOW_LINK', 'localhost:5000')}"
+        )
         with mlflow.start_run():
             func(*args)
 
