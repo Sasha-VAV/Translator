@@ -4,6 +4,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: ml_app
+    networks:
+      - ask4game
     environment:
       - NVIDIA_VISIBLE_DEVICES=all  # Enable GPU access
       - NVIDIA_DRIVER_CAPABILITIES=compute,utility

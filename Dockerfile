@@ -1,13 +1,14 @@
 FROM pytorch/pytorch:2.6.0-cuda12.4-cudnn9-runtime
 
-RUN apt-get update && apt-get install -y vim
-
-RUN pip install poetry
+RUN apt-get update && apt-get install -y vim curl git
 
 WORKDIR /app
 
-COPY pyproject.toml poetry.lock* /app/
+ENV PYTHONPATH=/app:$PYTHONPATH
 
+COPY pyproject.toml poetry.lock /app/
+
+RUN pip install poetry && poetry config virtualenvs.create false
 RUN poetry install --no-root
 
 COPY . .
