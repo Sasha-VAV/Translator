@@ -1,8 +1,14 @@
 # Translator
 This is a research project to create a model that can work with text
 
-### How to launch
+### How to launch in docker environment
+
+### How to launch in your environment
 - Clone repository
+- Install dependencies by
+```shell
+pip install poetry && poetry install
+```
 - Run code
 ```python
 from Translator import Writer
