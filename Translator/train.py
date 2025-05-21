@@ -14,6 +14,7 @@ def mlflow_decorator(func: callable) -> callable:
         mlflow.set_tracking_uri(
             uri=f"http://{os.environ.get('MLFLOW_LINK', 'localhost:5000')}"
         )
+        mlflow.set_experiment("Writer")
         with mlflow.start_run():
             func(*args)
 
@@ -24,7 +25,9 @@ def mlflow_decorator(func: callable) -> callable:
 def train_decoder():
     dataset = load_dataset("roneneldan/TinyStories")["train"]
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    writer = Writer.from_pretrained("Sashavav/Translator").to(device)
+    #writer = Writer.from_pretrained("Sashavav/Translator")
+    writer = Writer.from_pretrained("train")
+    writer = writer.to(device)
     model = writer.model
     tokenizer = writer.tokenizer
     # model.load_state_dict(torch.load("../data/text_generator.pth"))
