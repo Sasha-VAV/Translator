@@ -118,10 +118,11 @@ class Writer(PreTrainedModel):
         self.tokenizer.save_tokenizer(os.path.join(save_directory, "tokenizer.model"))
 
     @classmethod
-    def from_pretrained(cls, pretrained_model_name_or_path: str, **kwargs):
-        if not os.path.isdir(pretrained_model_name_or_path):
+    def from_pretrained(cls, pretrained_model_name_or_path: Optional[str] = None, **kwargs):
+        if pretrained_model_name_or_path is None or not os.path.isdir(pretrained_model_name_or_path):
             from huggingface_hub import snapshot_download
-
+            if pretrained_model_name_or_path is None:
+                pretrained_model_name_or_path = "Sashavav/Translator"
             pretrained_model_name_or_path = snapshot_download(
                 repo_id=pretrained_model_name_or_path
             )
