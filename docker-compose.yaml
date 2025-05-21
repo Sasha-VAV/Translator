@@ -20,7 +20,7 @@ services:
             - capabilities: [ gpu ]
     stdin_open: true  # Keep STDIN open
     tty: true  # Allocate a pseudo-TTY
-    command: bash -c "python3 -m Translator"
+    command: bash -c "poetry run python3 -m Translator"
 
 
 networks:
