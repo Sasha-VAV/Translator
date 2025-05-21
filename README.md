@@ -1,7 +1,26 @@
 # Translator
 This is a research project to create a model that can work with text
 
-### How to launch in docker environment
+### Use my server
+```shell
+curl -X POST \
+  http://91.211.217.36:4000/write \
+  -H "Content-Type: application/json" \
+  -d '{"text": "One day I saw a", "temperature": 2}'
+```
+
+### How to use in your docker environment
+```shell
+git clone https://github.com/Sasha-VAV/Translator
+docker-compose up -d --build
+```
+Example request
+```shell
+curl -X POST \
+  http://localhost:4000/write \
+  -H "Content-Type: application/json" \
+  -d '{"text": "One day I saw a", "temperature": 2}'
+```
 
 ### How to launch in your environment
 - Clone repository
