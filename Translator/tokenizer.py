@@ -96,7 +96,10 @@ class Tokenizer(SentencePieceProcessor):
         return sp
 
     def save_tokenizer(self, path: str = "../data/spm_model.model"):
-        shutil.copyfile(self.path, path)
+        try:
+            shutil.copyfile(self.path, path)
+        except shutil.SameFileError:
+            pass
 
 
 if __name__ == "__main__":

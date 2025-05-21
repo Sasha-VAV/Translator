@@ -159,7 +159,7 @@ class Writer(PreTrainedModel):
             repo_type="model",
         )
         api.upload_file(
-            path_or_fileobj=os.path.abspath("README.md"),
+            path_or_fileobj=os.path.abspath("../README.md"),
             path_in_repo="README.md",
             repo_id="Sashavav/Translator",
             repo_type="model",

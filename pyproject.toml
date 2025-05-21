@@ -18,8 +18,7 @@ einops = "^0.8.1"
 sentencepiece = "^0.2.0"
 python-multipart = "^0.0.20"
 transformers = "^4.51.3"
-mlflow = "^2.22.0"
-datasets = "^3.6.0"
+huggingface-hub = "^0.31.4"
 
 
 [build-system]
