@@ -1,0 +1,29 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ml_app
+    ports:
+      - "4000:4000"
+    networks:
+      - ask4game
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all  # Enable GPU access
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+      - HF_TOKEN=${HF_TOKEN}
+      - MLFLOW_LINK=${MLFLOW_LINK}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [ gpu ]
+    stdin_open: true  # Keep STDIN open
+    tty: true  # Allocate a pseudo-TTY
+    command: bash -c "poetry run python3 -m Translator"
+
+
+networks:
+  ask4game:
+    external: true
+    name: ask4game

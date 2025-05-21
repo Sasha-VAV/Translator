@@ -33,12 +33,12 @@ def get_reviews_scorer(path_to_tokenizer: str = "data/imdb.model"):
     return model, tokenizer
 
 
-def get_text_generator(path_to_tokenizer: str = "data/en-ru-50k.model"):
-    n_blocks = 6
-    n_tokens = 50000
+def get_text_generator(path_to_tokenizer: str = "data/en-8k.model"):
+    n_blocks = 4
+    n_tokens = 8192
     embedding_size = 512
     n_heads = 8
-    hidden_size = 2048
+    hidden_size = 1024
     max_sequence_length = 128
     model = Decoder(
         n_blocks=n_blocks,
@@ -118,10 +118,11 @@ class Writer(PreTrainedModel):
         self.tokenizer.save_tokenizer(os.path.join(save_directory, "tokenizer.model"))
 
     @classmethod
-    def from_pretrained(cls, pretrained_model_name_or_path: str, **kwargs):
-        if not os.path.isdir(pretrained_model_name_or_path):
+    def from_pretrained(cls, pretrained_model_name_or_path: Optional[str] = None, **kwargs):
+        if pretrained_model_name_or_path is None or not os.path.isdir(pretrained_model_name_or_path):
             from huggingface_hub import snapshot_download
-
+            if pretrained_model_name_or_path is None:
+                pretrained_model_name_or_path = "Sashavav/Translator"
             pretrained_model_name_or_path = snapshot_download(
                 repo_id=pretrained_model_name_or_path
             )
@@ -159,7 +160,7 @@ class Writer(PreTrainedModel):
             repo_type="model",
         )
         api.upload_file(
-            path_or_fileobj=os.path.abspath("README.md"),
+            path_or_fileobj=os.path.abspath("../README.md"),
             path_in_repo="README.md",
             repo_id="Sashavav/Translator",
             repo_type="model",
