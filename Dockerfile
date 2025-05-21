@@ -8,7 +8,7 @@ ENV PYTHONPATH=/app:$PYTHONPATH
 
 COPY pyproject.toml poetry.lock /app/
 
-RUN pip install poetry \
+RUN pip install poetry
 RUN poetry config virtualenvs.create true && \
     poetry config virtualenvs.in-project true
 RUN poetry install --no-root
