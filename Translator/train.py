@@ -33,11 +33,11 @@ def train_decoder():
     # model.load_state_dict(torch.load("../data/text_generator.pth"))
     max_sequence_length = 128
     # Train args
-    epochs = 10
+    epochs = 20
     scaler = torch.amp.GradScaler(device=device.type)
     num_of_sequences = 2119719
     save_every_n_steps = 100
-    effective_batch_size = 1200
+    effective_batch_size = 2000
     batch_size = 400
     acc_steps = effective_batch_size // batch_size
     optimizer = optim.Adam(model.parameters())
@@ -45,7 +45,6 @@ def train_decoder():
     batch_i = 0
     acc_i = 0
     save_i = 0
-    seq_i = 0
     batch = torch.zeros(
         batch_size, max_sequence_length, dtype=torch.long, device=device
     )
@@ -74,15 +73,12 @@ def train_decoder():
                 # optimizer.step()
                 optimizer.zero_grad()
                 acc_i = 0
-                mlflow.log_metric("loss", running_loss / acc_steps)
-                running_loss = 0.0
             save_i += 1
             if save_i == save_every_n_steps:
                 writer.save_pretrained("train")
+                mlflow.log_metric("loss", running_loss / save_every_n_steps)
+                running_loss = 0.0
                 save_i = 0
-            seq_i += 2
-            if seq_i >= num_of_sequences:
-                break
             batch_i = 0
         writer.push_to_hub()
         writer.save_pretrained(f"epoch{epoch + 1}")
